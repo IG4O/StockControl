@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db   = 'donaguiodb';
+$db   = 'guiodb';
 $user = 'postgres';
 $pass = '123';
 $port = '5432';
