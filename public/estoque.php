@@ -12,9 +12,9 @@ $dataregistro = date('Y-m-d H:i:s');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['adicionar'])) {
-        adicionarProduto($conn, $_POST['nome'], $_POST['quantidade'], $_POST['valor'], $usuario, $dataregistro);
+        adicionarProduto($conn, $_POST['nome'], $_POST['quantidade'], $_POST['valor'], $usuario, $dataregistro, $_POST['custo'],  $_POST['marca']);
     } elseif (isset($_POST['remover'])) {
-        removerProduto($conn, $_POST['id'], $usuario, $dataregistro);
+        removerProduto($conn, $_POST['id'], $usuario, $dataregistro, $_POST['nome']);
     }
 }
 
@@ -33,13 +33,19 @@ $produtos = listarProdutos($conn);
                 event.preventDefault();
             }
         }
+
+        function confirmarEdicao(event){
+            if (!confirm("Tem certeza que deseja editar este produto?")) {
+                event.preventDefault();
+            }
+        }
     </script>
 </head>
 <body class="bg-light">
 
 <style>
     body {
-        margin-top: 90px; /* Compensa a navbar mais alta */
+        margin-top: -20px; /* Compensa a navbar mais alta */
     }
 </style>
 
@@ -49,8 +55,10 @@ $produtos = listarProdutos($conn);
     <!-- Formulário de adição -->
     <form method="POST" class="d-flex justify-content-center mb-4 gap-2">
         <input type="text" name="nome" placeholder="Nome" class="form-control w-25" required>
+        <input type="text" name="marca" placeholder="Marca" class="form-control w-25">
         <input type="number" name="quantidade" placeholder="Quantidade" class="form-control w-25" required>
-        <input type="number" step="0.01" name="valor" placeholder="Preço" class="form-control w-25" required>
+        <input type="number" step="0.01" name="custo" placeholder="Preço custo" class="form-control w-25" required>
+        <input type="number" step="0.01" name="valor" placeholder="Preço venda" class="form-control w-25" required>
         <button name="adicionar" class="btn btn-success">Adicionar</button>
     </form>
 
@@ -61,7 +69,9 @@ $produtos = listarProdutos($conn);
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
+                    <th>Marca</th>
                     <th>Quantidade</th>
+                    <th>Preço Custo</th>
                     <th>Preço Unitário</th>
                     <th>Data Registro</th>
                     <th>Ações</th>
@@ -77,13 +87,16 @@ $produtos = listarProdutos($conn);
                     <tr>
                         <td><?= $p['id'] ?></td>
                         <td><?= htmlspecialchars($p['nome']) ?></td>
+                        <td><?= htmlspecialchars($p['marca']) ?></td>
                         <td><?= $p['quantidade'] ?></td>
+                        <td>R$ <?= number_format($p['custo'], 2, ',', '.') ?></td>
                         <td>R$ <?= number_format($p['valor'], 2, ',', '.') ?></td>
-                        <td><?= isset($p['dataregistro']) ? date('d/m/Y H:i', strtotime($p['dataregistro'])) : '-' ?></td>
+                        <td><?= isset($p['dataregistro']) ? date('d/m/Y', strtotime($p['dataregistro'])) : '-' ?></td>
                         <td>
                             <form method="POST" style="display:inline">
                                 <input type="hidden" name="id" value="<?= $p['id'] ?>">
-                                <button name="remover" class="btn btn-sm btn-danger" onclick="confirmarExclusao(event)">Excluir</button>
+                                <!-- <button name="alterar" class="btn btn-sm btn-info" onclick="confirmarEdicao(event)">Alterar</button> -->
+                                <button name="remover" class="btn btn-sm btn-danger" onclick="confirmarExclusao(event)">Excluir</button>                                
                             </form>
                         </td>
                     </tr>
@@ -96,11 +109,11 @@ $produtos = listarProdutos($conn);
     <div class="text-end mt-3">
         <h5><strong>Valor total em estoque:</strong> R$ <?= number_format($totalEstoque, 2, ',', '.') ?></h5>
     </div>
-
+<!-- 
     <div class="text-center mt-4">
         <a href="relatorio.php" class="btn btn-secondary me-2">Relatórios</a>
         <a href="logout.php" class="btn btn-outline-danger">Sair</a>
-    </div>
+    </div> -->
 </div>
 
 </body>

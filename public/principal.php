@@ -10,6 +10,7 @@ require_once '../src/auth.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
+            margin-top: 80px;
             background-color: #f8f9fa;
         }
 
@@ -60,8 +61,11 @@ require_once '../src/auth.php';
                 <!-- Menu principal -->
                 <ul class="navbar-nav me-auto ms-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="carregarPagina('estoque.php')">Estoque</a>
+                        <a class="nav-link" href="#" onclick="carregarPagina('venda.php')">Venda</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="carregarPagina('estoque.php')">Estoque</a>
+                    </li>                    
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="carregarPagina('relatorio.php')">Relatório</a>
                     </li>
@@ -78,7 +82,7 @@ require_once '../src/auth.php';
     </nav>
 
     <!-- Conteúdo dinâmico -->
-    <iframe id="conteudo" src="estoque.php"></iframe>
+    <iframe id="conteudo" src="venda.php"></iframe>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>

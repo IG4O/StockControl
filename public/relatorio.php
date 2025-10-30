@@ -7,7 +7,13 @@ if (!isset($_SESSION['usuario'])) {
     exit;
 }
 
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    excluirLog($conn, $id);
+}
+
 $logs = listarLogs($conn);
+
 ?>
 
 <!DOCTYPE html>
@@ -26,11 +32,11 @@ $logs = listarLogs($conn);
     </script>
 </head>
 
-<style>
+<!-- <style>
     body {
         margin-top: 90px; /* Compensa a navbar mais alta */
     }
-</style>
+</style> -->
 <body class="bg-light">
     <div class="container mt-5">
         <h2 class="text-primary mb-4 text-center">Relatório de Atividades</h2>
@@ -55,7 +61,7 @@ $logs = listarLogs($conn);
                         <td><?= htmlspecialchars($log['acao']) ?></td>
                         <td><?= date('d/m/Y H:i', strtotime($log['data_log'])) ?></td>
                         <td>
-                            <a href="excluir_log.php?id=<?= $log['id'] ?>" 
+                            <a href="relatorio.php?id=<?= $log['id'] ?>" 
                                class="btn btn-sm btn-danger"
                                onclick="confirmarExclusao(event)">Excluir</a>
                         </td>
@@ -68,9 +74,9 @@ $logs = listarLogs($conn);
             <h5><strong>Total de registros:</strong> <?= $totalItens ?></h5>
         </div>
 
-        <div class="text-center mt-4">
+        <!-- <div class="text-center mt-4">
             <a href="estoque.php" class="btn btn-secondary">← Voltar ao Estoque</a>
-        </div>
+        </div> -->
     </div>
 </body>
 </html>
