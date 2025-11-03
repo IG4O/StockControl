@@ -6,6 +6,7 @@ require_once '../src/produto.php';
 require_once '../src/venda.php';
 
 $produtos = listarProdutos($conn);
+date_default_timezone_set('America/Sao_Paulo');
 $datavenda = date('Y-m-d H:i:s');
 
 if (!isset($_SESSION['usuario'])) {

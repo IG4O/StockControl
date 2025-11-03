@@ -8,12 +8,16 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 $usuario = $_SESSION['usuario'];
+date_default_timezone_set('America/Sao_Paulo');
 $dataregistro = date('Y-m-d H:i:s');
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     if (isset($_POST['adicionar'])) {
         adicionarProduto($conn, $_POST['nome'], $_POST['quantidade'], $_POST['valor'], $usuario, $dataregistro, $_POST['custo'],  $_POST['marca']);
-    } elseif (isset($_POST['remover'])) {
+    } elseif (isset($_POST['remover'])) {        
         removerProduto($conn, $_POST['id'], $usuario, $dataregistro, $_POST['nome']);
     }
 }
@@ -95,6 +99,7 @@ $produtos = listarProdutos($conn);
                         <td>
                             <form method="POST" style="display:inline">
                                 <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                                <input type="hidden" name="nome" value="<?= $p['nome'] ?>">
                                 <!-- <button name="alterar" class="btn btn-sm btn-info" onclick="confirmarEdicao(event)">Alterar</button> -->
                                 <button name="remover" class="btn btn-sm btn-danger" onclick="confirmarExclusao(event)">Excluir</button>                                
                             </form>
@@ -106,6 +111,7 @@ $produtos = listarProdutos($conn);
     </div>
 
     <!-- Total -->
+     
     <div class="text-end mt-3">
         <h5><strong>Valor total em estoque:</strong> R$ <?= number_format($totalEstoque, 2, ',', '.') ?></h5>
     </div>
